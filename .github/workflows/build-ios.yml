@@ -1,0 +1,46 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.32.6'
+        channel: 'stable'
+        
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Setup iOS dependencies
+      run: |
+        cd ios
+        pod install
+        cd ..
+        
+    - name: Build iOS (unsigned)
+      run: flutter build ios --release --no-codesign
+      
+    - name: Archive iOS build
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-build
+        path: build/ios/iphoneos/Runner.app
+        
+    - name: Build iOS IPA (if certificates provided)
+      run: |
+        # This step would require signing certificates
+        # flutter build ipa --release
+        echo "IPA build requires signing certificates in repository secrets"

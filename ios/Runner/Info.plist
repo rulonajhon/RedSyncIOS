@@ -55,5 +55,22 @@
 	<!-- Google Maps API Key for iOS -->
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	
+	<!-- Notification Permissions -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>background-processing</string>
+		<string>background-fetch</string>
+	</array>
+	
+	<!-- Notification usage description -->
+	<key>NSUserNotificationUsageDescription</key>
+	<string>This app needs to send you medication reminders and important health notifications.</string>
+	
+	<!-- Allow notifications when app is not running -->
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
 </dict>
 </plist>
